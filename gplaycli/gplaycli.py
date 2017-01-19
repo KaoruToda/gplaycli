@@ -138,21 +138,21 @@ class GPlaycli(object):
                 message += u"\n%s Version : %s -> %s" % (filename, apk_version_code, store_version_code)
                 list_of_packages_to_download.append([packagename, filename])
             message += "\n\nDo you agree?"
-            print message
+            print(message)
             if not self.yes:
                 return_value = raw_input('y/n ?')
 
             if self.yes or return_value == 'y':
                 if self.verbose:
-                    print "Downloading ..."
+                    print("Downloading ...")
                 downloaded_packages = self.download_selection(self.playstore_api, list_of_packages_to_download,
                                                               self.after_download)
                 return_string = str()
                 for package in downloaded_packages:
                     return_string += package + " "
-                print "Updated: " + return_string[:-1]
+                print("Updated: " + return_string[:-1])
         else:
-            print "Everything is up to date !"
+            print("Everything is up to date !")
             sys.exit(0)
 
     def download_selection(self, playstore_api, list_of_packages_to_download, return_function):
@@ -165,7 +165,7 @@ class GPlaycli(object):
         for detail, item in zip(details.entry, list_of_packages_to_download):
             packagename, filename = item
             if self.verbose:
-                print str(position) + "/" + str(len(list_of_packages_to_download)), packagename
+                print(str(position) + "/" + str(len(list_of_packages_to_download)), packagename)
 
             # Check for download folder
             download_folder_path = self.config["download_folder_path"]
@@ -182,12 +182,12 @@ class GPlaycli(object):
             try:
                 data = playstore_api.download(packagename, vc, progress_bar=self.progress_bar)
             except IndexError as exc:
-                print "Error while downloading %s : %s" % (packagename,
+                print("Error while downloading %s : %s" % (packagename,
                                                            "this package does not exist, "
-                                                           "try to search it via --search before")
+                                                           "try to search it via --search before"))
                 failed_downloads.append((item, exc))
             except Exception as exc:
-                print "Error while downloading %s : %s" % (packagename, exc)
+                print("Error while downloading %s : %s" % (packagename, exc))
                 failed_downloads.append((item, exc))
             else:
                 if filename is None:
@@ -197,7 +197,7 @@ class GPlaycli(object):
                 try:
                     open(filepath, "wb").write(data)
                 except IOError, exc:
-                    print "Error while writing %s : %s" % (packagename, exc)
+                    print("Error while writing %s : %s" % (packagename, exc))
                     failed_downloads.append((item, exc))
             position += 1
 
