@@ -237,7 +237,7 @@ class GPlaycli(object):
         if len(results) > 0:
             results = results[0].child
         else:
-            print "No result"
+            print("No result")
             return
         all_results = list()
         if include_headers:
@@ -267,8 +267,8 @@ class GPlaycli(object):
                 col_width.append(col_length + 2)
 
             for result in all_results:
-                print "".join((u"%s" % item).encode('utf-8').strip().ljust(col_width[indice]) for indice, item in
-                              enumerate(result))
+                print("".join((u"%s" % item).encode('utf-8').strip().ljust(col_width[indice]) for indice, item in
+                              enumerate(result)))
         return all_results
 
     def download_packages(self, list_of_packages_to_download):
@@ -346,11 +346,11 @@ def main():
     success, error = cli.connect_to_googleplay_api()
 
     if not success:
-        print "Cannot login to GooglePlay (", error, ")"
+        print("Cannot login to GooglePlay (", error, ")")
         sys.exit(1)
 
     if args.list:
-        print cli.list_folder_apks(args.list)
+        print(cli.list_folder_apks(args.list))
 
     if args.update_folder:
         cli.prepare_analyse_apks()
