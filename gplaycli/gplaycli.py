@@ -19,7 +19,7 @@ see <http://www.gnu.org/licenses/>.
 import sys
 import os
 import argparse
-import ConfigParser
+import configparser
 import time
 from ext_libs.googleplay_api.googleplay import GooglePlayAPI  # GooglePlayAPI
 from ext_libs.googleplay_api.googleplay import LoginError
