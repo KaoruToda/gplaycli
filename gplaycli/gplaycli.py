@@ -220,7 +220,7 @@ class GPlaycli(object):
                     message += "\n%s" % package_name
                 message += "\n%s\n" % exception
 
-        print message
+        print(message)
 
     def sizeof_fmt(self, num):
         for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
