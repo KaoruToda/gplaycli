@@ -93,7 +93,7 @@ class GPlaycli(object):
                         os.path.splitext(filename)[1] == ".apk"]
         if len(list_of_apks) > 0:
             if self.verbose:
-                print "Checking apks ..."
+                print("Checking apks ...")
             self.analyse_local_apks(list_of_apks, self.playstore_api, download_folder_path,
                                     self.prepare_download_updates)
 
@@ -111,7 +111,7 @@ class GPlaycli(object):
         details = playstore_api.bulkDetails(package_bunch)
         for detail, packagename, filename in zip(details.entry, package_bunch, list_of_apks):
             if self.verbose:
-                print "Analyzing %s" % packagename
+                print("Analyzing %s" % packagename)
             # Getting Apk infos
             filepath = os.path.join(download_folder_path, filename)
             a = androguard_apk.APK(filepath)
