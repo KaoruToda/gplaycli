@@ -3,8 +3,8 @@
 import base64
 import gzip
 import pprint
-import StringIO
-import requests
+import io
+import urllib.request
 
 from google.protobuf import descriptor
 from google.protobuf.internal.containers import RepeatedCompositeFieldContainer
