@@ -107,7 +107,7 @@ class GooglePlayAPI(object):
 
         # put your auth token in config.py to avoid multiple login requests
         if self.debug:
-            print "authSubToken: " + authSubToken
+            print("authSubToken: " + authSubToken)
 
     def login(self, email=None, password=None, authSubToken=None):
         """Login to your Google Account. You must provide either:
