@@ -196,7 +196,7 @@ class GPlaycli(object):
 
                 try:
                     open(filepath, "wb").write(data)
-                except IOError, exc:
+                except IOError as exc:
                     print("Error while writing %s : %s" % (packagename, exc))
                     failed_downloads.append((item, exc))
             position += 1
