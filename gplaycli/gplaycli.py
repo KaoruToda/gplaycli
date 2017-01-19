@@ -19,7 +19,7 @@ see <http://www.gnu.org/licenses/>.
 import sys
 import os
 import argparse
-import ConfigParser
+import configparser
 import time
 from ext_libs.googleplay_api.googleplay import GooglePlayAPI  # GooglePlayAPI
 from ext_libs.googleplay_api.googleplay import LoginError
@@ -53,7 +53,7 @@ class GPlaycli(object):
         error = None
         try:
             api.login(self.config["gmail_address"], self.config["gmail_password"], None)
-        except LoginError, exc:
+        except LoginError as exc:
             error = exc.value
             success = False
         else:
@@ -93,7 +93,7 @@ class GPlaycli(object):
                         os.path.splitext(filename)[1] == ".apk"]
         if len(list_of_apks) > 0:
             if self.verbose:
-                print "Checking apks ..."
+                print("Checking apks ...")
             self.analyse_local_apks(list_of_apks, self.playstore_api, download_folder_path,
                                     self.prepare_download_updates)
 
@@ -111,7 +111,7 @@ class GPlaycli(object):
         details = playstore_api.bulkDetails(package_bunch)
         for detail, packagename, filename in zip(details.entry, package_bunch, list_of_apks):
             if self.verbose:
-                print "Analyzing %s" % packagename
+                print("Analyzing %s" % packagename)
             # Getting Apk infos
             filepath = os.path.join(download_folder_path, filename)
             a = androguard_apk.APK(filepath)
@@ -138,21 +138,21 @@ class GPlaycli(object):
                 message += u"\n%s Version : %s -> %s" % (filename, apk_version_code, store_version_code)
                 list_of_packages_to_download.append([packagename, filename])
             message += "\n\nDo you agree?"
-            print message
+            print(message)
             if not self.yes:
                 return_value = raw_input('y/n ?')
 
             if self.yes or return_value == 'y':
                 if self.verbose:
-                    print "Downloading ..."
+                    print("Downloading ...")
                 downloaded_packages = self.download_selection(self.playstore_api, list_of_packages_to_download,
                                                               self.after_download)
                 return_string = str()
                 for package in downloaded_packages:
                     return_string += package + " "
-                print "Updated: " + return_string[:-1]
+                print("Updated: " + return_string[:-1])
         else:
-            print "Everything is up to date !"
+            print("Everything is up to date !")
             sys.exit(0)
 
     def download_selection(self, playstore_api, list_of_packages_to_download, return_function):
@@ -165,7 +165,7 @@ class GPlaycli(object):
         for detail, item in zip(details.entry, list_of_packages_to_download):
             packagename, filename = item
             if self.verbose:
-                print str(position) + "/" + str(len(list_of_packages_to_download)), packagename
+                print(str(position) + "/" + str(len(list_of_packages_to_download)), packagename)
 
             # Check for download folder
             download_folder_path = self.config["download_folder_path"]
@@ -182,12 +182,12 @@ class GPlaycli(object):
             try:
                 data = playstore_api.download(packagename, vc, progress_bar=self.progress_bar)
             except IndexError as exc:
-                print "Error while downloading %s : %s" % (packagename,
+                print("Error while downloading %s : %s" % (packagename,
                                                            "this package does not exist, "
-                                                           "try to search it via --search before")
+                                                           "try to search it via --search before"))
                 failed_downloads.append((item, exc))
             except Exception as exc:
-                print "Error while downloading %s : %s" % (packagename, exc)
+                print("Error while downloading %s : %s" % (packagename, exc))
                 failed_downloads.append((item, exc))
             else:
                 if filename is None:
@@ -196,8 +196,8 @@ class GPlaycli(object):
 
                 try:
                     open(filepath, "wb").write(data)
-                except IOError, exc:
-                    print "Error while writing %s : %s" % (packagename, exc)
+                except IOError as exc:
+                    print("Error while writing %s : %s" % (packagename, exc))
                     failed_downloads.append((item, exc))
             position += 1
 
@@ -220,7 +220,7 @@ class GPlaycli(object):
                     message += "\n%s" % package_name
                 message += "\n%s\n" % exception
 
-        print message
+        print(message)
 
     def sizeof_fmt(self, num):
         for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
@@ -237,7 +237,7 @@ class GPlaycli(object):
         if len(results) > 0:
             results = results[0].child
         else:
-            print "No result"
+            print("No result")
             return
         all_results = list()
         if include_headers:
@@ -267,8 +267,8 @@ class GPlaycli(object):
                 col_width.append(col_length + 2)
 
             for result in all_results:
-                print "".join((u"%s" % item).encode('utf-8').strip().ljust(col_width[indice]) for indice, item in
-                              enumerate(result))
+                print("".join((u"%s" % item).encode('utf-8').strip().ljust(col_width[indice]) for indice, item in
+                              enumerate(result)))
         return all_results
 
     def download_packages(self, list_of_packages_to_download):
@@ -346,11 +346,11 @@ def main():
     success, error = cli.connect_to_googleplay_api()
 
     if not success:
-        print "Cannot login to GooglePlay (", error, ")"
+        print("Cannot login to GooglePlay (", error, ")")
         sys.exit(1)
 
     if args.list:
-        print cli.list_folder_apks(args.list)
+        print(cli.list_folder_apks(args.list))
 
     if args.update_folder:
         cli.prepare_analyse_apks()
