@@ -53,7 +53,7 @@ class GPlaycli(object):
         error = None
         try:
             api.login(self.config["gmail_address"], self.config["gmail_password"], None)
-        except LoginError, exc:
+        except LoginError as exc:
             error = exc.value
             success = False
         else:
